@@ -23,21 +23,20 @@ class Node {
 
 class Queue {
   constructor() {
-    this.hand = null;
+    this.head = null;
     this.tail = null;
-    this.size = 0;
+    this.size = null;
   }
-
   enqueue(newValue) {
     const newNode = new Node(newValue);
     if (this.head === null) {
-      this.head = this.tail = newNode;
+      this.head = newNode;
+      this.tail = newNode;
     } else {
-      this.tail.next = new Node();
+      this.tail.next = newNode;
       this.tail = newNode;
     }
   }
-
   dequeue() {
     const value = this.head.value;
     this.head = this.head.next;
@@ -49,20 +48,22 @@ class Queue {
   }
 }
 
-function soution(prior, location) {
+function solution(priorities, location) {
   const queue = new Queue();
-  for (let i = 0; i < prior.length; i += 1) {
-    queue.enqueue([prior[i], i]);
+  for (let i = 0; i < priorities.length; i += 1) {
+    queue.enqueue([priorities[i], i]);
+    // 값, 인덱스 값 자리수가 같은 걸 찾아야해서
   }
+  priorities.sort((a, b) => b - a);
 
-  prior.sort((a, b) => b - a);
-  let count = 0;
+  let count = 0; // 몇번 복사 되었는지
   while (true) {
     const currentValue = queue.peek();
-    if (currentValue[0] < prior[count]) {
+    if (currentValue[0] < priorities[count]) {
       queue.enqueue(queue.dequeue());
+      // 앞에 값을 데큐 해서 엔큐함 => 뒤로보냄
     } else {
-      const value = queue.dequeue();
+      const value = queue.dequeue(); // front값을 뽑아서 인쇄
       count += 1;
       if (location === value[1]) {
         return count;
@@ -71,3 +72,4 @@ function soution(prior, location) {
   }
   return count;
 }
+soution([2, 1, 3, 2], 2);

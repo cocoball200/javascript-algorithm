@@ -25,7 +25,7 @@ class SinglyLinkedList {
       this.head = newNode;
       this.tail = newNode;
     } else {
-      this.tail.next = newNode; // tail
+      this.tail.next = newNode; //  tail === newNode(이전 노드). => tail.next => newNode.next
       this.tail = newNode;
     }
   }
